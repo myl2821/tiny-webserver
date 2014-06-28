@@ -1,3 +1,5 @@
 *.o
 *~
 tiny
+*.dSYM
+*.gch

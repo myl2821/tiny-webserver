@@ -27,6 +27,6 @@ tiny.o: $(SDIR)/tiny.c $(DEPS)
 .PHONY: clean
 
 clean:
-	-rm -rf *~ *.o $(CGIOBJS) 
+	-rm -rf *~ *.o $(CGIOBJS) tiny
 	
 

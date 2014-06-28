@@ -9,6 +9,8 @@ void serve_dynamic(int fd, char *filename, char *);
 void clienterror(int fd, char *cause, char *errnum, char *shortmsg, char *longmsg);
 
 
+#define MAX_PATH_LENGTH     512  
+
 /*
  * main -- the main routine
  * get listening port as paragram, and listening with I/O block
@@ -17,12 +19,18 @@ int main(int argc, char **argv) {
     int listenfd, connfd, port, clientlen;
     struct sockaddr_in clientaddr;
 
-    if (argc != 2) {
-        fprintf(stderr, "usage: %s <port>\n", argv[0]);
+    if (argc != 3) {
+        fprintf(stderr, "usage: %s <document root dir> <port>\n", argv[0]);
         exit(0);
     }
 
-    port = atoi(argv[1]);
+    const char *path = argv[1];
+    if(chdir(path) < 0) {
+        fprintf(stderr, "%s: directory no exist or you can't access to it.\n", argv[0]);
+        exit(0);
+    }
+
+    port = atoi(argv[2]);
 
     listenfd = Open_listenfd(port);
     while (1) {
