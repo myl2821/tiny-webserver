@@ -3,3 +3,5 @@
 tiny
 *.dSYM
 *.gch
+adder
+tags

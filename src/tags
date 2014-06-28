@@ -1,0 +1,8 @@
+Mtiny	tiny.c	/^int main(int argc, char **argv) {$/
+clienterror	clienterror.c	/^void clienterror(int fd, char *cause,  char *errnu/
+doit	doit.c	/^void doit (int fd)  {$/
+get_filetype	serve_static.c	/^void get_filetype(char *filename, char *filetype) /
+parse_uri	parse_url.c	/^int parse_uri(char *uri, char* filename, char* cgi/
+read_requesthdrs	doit.c	/^void read_requesthdrs(rio_t *rp) {$/
+serve_dynamic	serve_dynamic.c	/^void serve_dynamic(int fd, char *filename, char *c/
+serve_static	serve_static.c	/^void serve_static(int fd, char *filename, int file/

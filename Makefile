@@ -15,14 +15,17 @@ TARGET += tiny $(CGIOBJS)
 
 all: $(TARGET)
 
-tiny: csapp.o tiny.o
-	$(CC) $(CFLAGS) $^ -o $@ 
+tiny:tiny.o
+	$(CC) $(CFLAGS) tiny.o doit.o \
+	clienterror.o parse_url.o \
+	serve_static.o serve_dynamic.o $(LDIR)/csapp.o -o $@
+	rm *.o
 
-csapp.o: $(LDIR)/csapp.c
-	$(CC) $(CFLAGS) -c $^
+tiny.o: $(SDIR)/tiny.c $(SDIR)/doit.c \
+	$(SDIR)/clienterror.c $(SDIR)/parse_url.c \
+	$(SDIR)/serve_static.c $(SDIR)/serve_dynamic.c $(DEPS)
+	$(CC) $(CFLAGS) -c $^  
 
-tiny.o: $(SDIR)/tiny.c $(DEPS)
-	$(CC) $(CFLAGS) -c $^
 
 .PHONY: clean
 
