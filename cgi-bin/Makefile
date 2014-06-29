@@ -4,7 +4,6 @@ all: $(CGIBINS)
 
 define genbin
 $1: $1.o $(DEPS)
-	@echo $1
 	$(CC) $(CFLAGS) $$< -o $$@
 endef
 

@@ -31,7 +31,12 @@ int main(int argc, char **argv) {
     while (1) {
         clientlen = sizeof(clientaddr);
         connfd = Accept(listenfd, (SA *)&clientaddr, &clientlen);
-        doit(connfd);
+        if (Fork() == 0) {
+            Close(listenfd);
+            doit(connfd);
+            Close(connfd);
+            exit(0);
+        }
         Close(connfd);
     }
 }

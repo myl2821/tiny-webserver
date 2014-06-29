@@ -13,7 +13,7 @@ To compile, just type
 	
 To run this server, run
 
-	./tiny <The directory of you webRoot> <listening port>
+	./tiny <The directory of your webRoot> <listening port>
 	
 ##examples
 	./tiny . 55555
