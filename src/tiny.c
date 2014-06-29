@@ -2,14 +2,22 @@
 
 void doit(int fd);
 
-void sigchld_handler(int sig)  {
-    while (Waitpid(-1, 0, WNOHANG) > 0)
-        ;
-    return;
-}
 #define DEBUG
 
 #define MAX_PATH_LENGTH     512  
+
+
+/*
+ * sigchld_handler -- handle SIGCHLD signal
+ * do nothing but reap to avoid zombie
+ */
+void sigchld_handler(int sig)  {
+    while (waitpid(-1, 0, WNOHANG) > 0)
+        ;
+    return;
+}
+
+
 
 /*
  * main -- the main routine
