@@ -3,35 +3,37 @@ CWD = $(shell pwd)
 LDIR = $(CWD)/lib
 DEPS += $(LDIR)/*.h
 SDIR = $(CWD)/src
-CGI = $(CWD)/cgi-bin
-CGISRC = $(wildcard $(CGI)/*.c)
-CGIOBJS += $(patsubst %.c, %, $(CGISRC))
+CGIDIR = $(CWD)/cgi-bin
+
+SSRC = $(wildcard $(SDIR)/*.c $(LDIR)/*.c)
+SLIST = $(patsubst %.c, %, $(SSRC))
+SOBJS = $(patsubst %, %.o, $(SLIST))
 
 CC = cc
 CFLAGS += -Wall -g -I$(LDIR) 
 
-TARGET += tiny $(CGIOBJS)
+TARGET += tiny cgi
 
 all: $(TARGET)
 
-tiny:tiny.o csapp.o
-	$(CC) $(CFLAGS) tiny.o doit.o \
-	clienterror.o parse_url.o \
-	serve_static.o serve_dynamic.o csapp.o -o $@
-	rm *.o
+tiny: $(SOBJS)
+	$(CC) $(CFLAGS) $^ -o $@
 
-tiny.o: $(SDIR)/tiny.c $(SDIR)/doit.c \
-	$(SDIR)/clienterror.c $(SDIR)/parse_url.c \
-	$(SDIR)/serve_static.c $(SDIR)/serve_dynamic.c $(DEPS)
-	$(CC) $(CFLAGS) -c $^  
+define  genobj
+$1.o: $1.c $(DEPS)
+	$(CC) $(CFLAGS) -c $$< -o $$@
+endef
 
-csapp.o: $(LDIR)/csapp.c
-	$(CC) $(CFLAGS) -c $<
+$(foreach m, $(SLIST), $(eval $(call genobj, $(m))))
 
+export
+cgi:
+	$(MAKE) -C $(CGIDIR)
 
 .PHONY: clean
 
 clean:
-	-rm -rf *~ *.o $(CGIOBJS) tiny
+	-rm -rf tiny $(SOBJS)
+	$(MAKE) -C $(CGIDIR) clean
 	
 
