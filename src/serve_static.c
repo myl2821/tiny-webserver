@@ -5,7 +5,7 @@ void get_filetype(char *filename, char *filetype);
  * serve_static -- serve static GET request
  *
  */
-void serve_static(int fd, char *filename, int filesize)  {
+void serve_static(int fd, char *filename, int filesize, int head)  {
     int srcfd;
     char *srcp, filetype[MAXLINE], buf[MAXBUF];
     
@@ -16,6 +16,10 @@ void serve_static(int fd, char *filename, int filesize)  {
     sprintf(buf, "%sContent-type: %s\r\n", buf, filetype);
     sprintf(buf, "%sContent-length: %d\r\n\r\n", buf, filesize);
     Rio_writen(fd, buf, strlen(buf));
+
+    if (head) {
+        return;
+    }
 
     // send reponse body to client
     srcfd = Open(filename, O_RDONLY, 0);
