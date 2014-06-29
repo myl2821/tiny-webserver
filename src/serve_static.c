@@ -36,19 +36,21 @@ void serve_static(int fd, char *filename, int filesize, int head)  {
  *
  */
 void get_filetype(char *filename, char *filetype)  {
-    if (strstr(filename, ".html")) {
-        strcpy(filetype, "text/html");
+    char *type_list[] =  {
+        ".html", "text/html", 
+        ".jpg", "image/jpeg",
+        ".git", "image/gif", 
+        ".mpg", "video/mpeg",
+    };
+
+    const int type_cnt = sizeof(type_list) / (2 * sizeof(char*));
+
+    for(int i = 0; i < type_cnt; i++) {
+        if(strstr(filename, type_list[i*2]))  {
+            strcpy(filetype, type_list[i*2 + 1]);
+            return;
+        }
     }
-    else if (strstr(filename, ".gif")) {
-        strcpy(filename, "image/gif");
-    }
-    else if (strstr(filename, ".jpg")) {
-        strcpy(filename, "image/jpeg");
-    }
-    else if (strstr(filename, ".mpg")) {
-        strcpy(filename, "video/mpeg");
-    }
-    else {
-        strcpy(filename, "text/plain");
-    }
+
+    strcpy(filetype, "text/plain");
 }
