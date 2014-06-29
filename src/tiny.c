@@ -2,6 +2,12 @@
 
 void doit(int fd);
 
+void sigchld_handler(int sig)  {
+    while (Waitpid(-1, 0, WNOHANG) > 0)
+        ;
+    return;
+}
+#define DEBUG
 
 #define MAX_PATH_LENGTH     512  
 
@@ -27,11 +33,15 @@ int main(int argc, char **argv) {
 
     port = atoi(argv[2]);
 
+    Signal(SIGCHLD, sigchld_handler);
     listenfd = Open_listenfd(port);
     while (1) {
         clientlen = sizeof(clientaddr);
         connfd = Accept(listenfd, (SA *)&clientaddr, &clientlen);
         if (Fork() == 0) {
+#ifdef DEBUG
+            printf("\n** client request with fd %d **\n\n", connfd);
+#endif
             Close(listenfd);
             doit(connfd);
             Close(connfd);
