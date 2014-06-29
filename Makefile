@@ -6,8 +6,8 @@ SDIR = $(CWD)/src
 CGIDIR = $(CWD)/cgi-bin
 
 SSRC = $(wildcard $(SDIR)/*.c $(LDIR)/*.c)
-SLIST = $(patsubst %.c, %, $(SSRC))
-SOBJS = $(patsubst %, %.o, $(SLIST))
+SLIST = $(SSRC:%.c=%)
+SOBJS = $(SLIST:%=%.o)
 
 CC = cc
 CFLAGS += -Wall -g -I$(LDIR) 
