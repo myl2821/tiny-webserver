@@ -1,7 +1,6 @@
 #include "csapp.h"
 
 void doit(int fd);
-int cfd; // a dirty variable for dealing with sigpipe
 
 #define DEBUG
 
@@ -18,10 +17,6 @@ void sigchld_handler(int sig)  {
     return;
 }
 
-void sigpipe_handler(int sig)  {
-    Close(cfd);
-    exit(0);    
-}
 
 /*
  * main -- the main routine
@@ -46,7 +41,7 @@ int main(int argc, char **argv) {
     port = atoi(argv[2]);
 
     Signal(SIGCHLD, sigchld_handler);
-    Signal(SIGPIPE, sigpipe_handler);
+    Signal(SIGPIPE, SIG_IGN);
     listenfd = Open_listenfd(port);
     while (1) {
         clientlen = sizeof(clientaddr);
@@ -55,7 +50,6 @@ int main(int argc, char **argv) {
 #ifdef DEBUG
             printf("\n** client request with fd %d **\n\n", connfd);
 #endif
-            cfd = connfd;
             Close(listenfd);
             doit(connfd);
             Close(connfd);

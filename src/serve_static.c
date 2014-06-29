@@ -35,14 +35,15 @@ void serve_static(int fd, char *filename, int filesize, int head)  {
  * get_filetype -- simple implement for getting content file type
  *
  */
-void get_filetype(char *filename, char *filetype)  {
-    char *type_list[] =  {
-        ".html", "text/html", 
-        ".jpg", "image/jpeg",
-        ".git", "image/gif", 
-        ".mpg", "video/mpeg",
-    };
 
+static char *type_list[] =  {
+    ".html", "text/html", 
+    ".jpg", "image/jpeg",
+    ".git", "image/gif", 
+    ".mpg", "video/mpeg",
+};
+
+void get_filetype(char *filename, char *filetype)  {
     const int type_cnt = sizeof(type_list) / (2 * sizeof(char*));
 
     for(int i = 0; i < type_cnt; i++) {
