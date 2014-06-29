@@ -12,7 +12,7 @@ static void sigchld_handler(int sig) {
  * serve_dynamic -- serve dynamic GET request
  *
  */
-void serve_dynamic(int fd, char *filename, char *cgiargs) {
+void serve_dynamic(int fd, char *filename, char *cgiargs, int head) {
     char buf[MAXLINE], *emptylist[] =  { NULL };
 
     sprintf(buf, "HTTP/1.0 200 OK\r\n");
