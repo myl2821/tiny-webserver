@@ -35,11 +35,14 @@ void get_filetype(char *filename, char *filetype)  {
     if (strstr(filename, ".html")) {
         strcpy(filetype, "text/html");
     }
-    else if (strstr(filename, ".gif"))  {
+    else if (strstr(filename, ".gif")) {
         strcpy(filename, "image/gif");
     }
-    else if (strstr(filename, ".jpg"))  {
+    else if (strstr(filename, ".jpg")) {
         strcpy(filename, "image/jpeg");
+    }
+    else if (strstr(filename, ".mpg")) {
+        strcpy(filename, "video/mpeg");
     }
     else {
         strcpy(filename, "text/plain");
