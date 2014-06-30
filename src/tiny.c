@@ -2,7 +2,7 @@
 
 void doit(int fd);
 
-#define DEBUG
+//#define DEBUG
 
 #define MAX_PATH_LENGTH     512  
 

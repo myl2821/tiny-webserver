@@ -5,6 +5,10 @@
  *
  */
 
+#ifndef DEBUG
+//#define DEBUG
+#endif
+
 void read_requesthdrs(rio_t *rp);
 void clienterror(int fd, char *cause,  char *errnum, char *shortmsg, char *longmsg);
 int parse_uri(char *uri, char* filename, char* cgiargs); 
@@ -96,7 +100,9 @@ void read_requesthdrs(rio_t *rp) {
     Rio_readlineb(rp, buf, MAXLINE);
     while(strcmp(buf, "\r\n")) {
         Rio_readlineb(rp, buf, MAXLINE);
+#ifdef DEBUG
         printf("%s", buf);
+#endif
     }
     return;
 }
